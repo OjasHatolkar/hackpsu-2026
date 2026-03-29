@@ -8,6 +8,8 @@
 
     <h2 id="directiveText">Waiting for directive...</h2>
 
+    <h3 id="roomCode"></h3>
+
     <label>Value:</label>
     <input type="range" id="slider" min="1" max="100" value="50">
     <span id="sliderValue">50</span>
@@ -34,6 +36,8 @@
 
         const slider = document.getElementById("slider");
         const sliderValue = document.getElementById("sliderValue");
+
+        document.getElementById("roomCode").textContent = `Room Code: ${room}`;
 
         slider.oninput = () => {
             sliderValue.textContent = slider.value;

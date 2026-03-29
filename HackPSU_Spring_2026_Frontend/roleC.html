@@ -10,6 +10,8 @@
 
     <h2 id="resultText"></h2>
 
+    <h3 id = "roomCode"></h3>
+
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="socket.js"></script>
 
@@ -21,6 +23,8 @@
         function startRound() {
             socket.emit("next_round", { room });
         }
+
+        document.getElementById("roomCode").textContent = `Room Code: ${room}`;
 
         socket.on("round_result", ({ directive, actual, success, score }) => {
             document.getElementById("resultText").textContent =

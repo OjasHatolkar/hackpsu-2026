@@ -29,7 +29,7 @@ def start_round(room_id):
 
     rooms[room_id]['state']['current_directive'] = directive
 
-    emit('new_directive', directive, room = room_id)
+    emit('directive_update', {'directive': directive}, room = room_id)
 
 @socketio.on('start_round')
 def handle_start_round(data):
@@ -79,6 +79,8 @@ def handle_host_crew():
     room_id = generate_room_code()
     create_room(room_id, public = False)
 
+    print("Created room:", room_id)
+    
     sid = request.sid
     role = assign_role(room_id, sid)
     join_room(room_id)
@@ -89,7 +91,7 @@ def handle_host_crew():
 def handle_join_crew(data):
     room_id = data.get('room')
 
-    if room_id not in rooms or rooms[room_id]["public"]:
+    if room_id not in rooms:
         emit('join_error', {'error': 'Room not found'})
         return
     
@@ -112,11 +114,17 @@ def room_has_space(room_id):
 def assign_role(room_id, sid):
     if room_id not in rooms:
         return
-    for role, current_sid in rooms[room_id]['players'].items():
-        if current_sid is None:
-            rooms[room_id]['players'][role] = sid
-            return role
-    return None
+
+    players = rooms[room_id]['players']
+
+    available_roles = [role for role, current_sid in players.items() if current_sid is None]
+    
+    if not available_roles:
+        return None
+    
+    role = random.choice(available_roles)
+    players[role] = sid
+    return role
 
 @socketio.on('auto_deploy')
 def handle_auto_deploy():
@@ -261,6 +269,10 @@ def handle_disconnect():
                     if room_id in public_rooms:
                         public_rooms.remove(room_id)
                     return
+                
+@socketio.on('connect')
+def handle_connect():
+    print("Client connected:", request.sid)
 
 if __name__ == '__main__':
     socketio.run(app, debug = True)

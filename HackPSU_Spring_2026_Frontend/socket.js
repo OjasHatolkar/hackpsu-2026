@@ -5,7 +5,7 @@ function hostCrew() {
 }
 
 function joinCrew() {
-    const room = document.getElementById("roomInput").value;
+    const room = document.getElementById("roomInput").value.toUpperCase();
     socket.emit("join_crew", { room });
 }
 
@@ -23,4 +23,8 @@ socket.on("joined_room", ({ room, role }) => {
 
 socket.on("auto_deployed", ({ room, role }) => {
     window.location.href = `role${role}.html?room=${room}&role=${role}`;
+});
+
+socket.on("join_error", ({ error }) => {
+    alert(error);
 });
