@@ -1,0 +1,29 @@
+# --- Python virtual environment ---
+venv/
+ENV/
+env/
+
+# --- Python cache files ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- VS Code settings ---
+.vscode/
+
+# --- Flask / SocketIO temporary files ---
+instance/
+*.db
+*.sqlite3
+
+# --- OS-specific junk ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
+
+# --- Environment variables ---
+.env
+*.env
