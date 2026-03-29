@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Lobby</title>
+</head>
+<body>
+    <h1>Join a Crew</h1>
+
+    <button onclick="hostCrew()">Host Crew</button>
+    <br><br>
+
+    <input id="roomInput" placeholder="Room Code">
+    <button onclick="joinCrew()">Join Crew</button>
+    <br><br>
+
+    <button onclick="autoDeploy()">Auto Deploy</button>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="socket.js"></script>
+</body>
+</html>

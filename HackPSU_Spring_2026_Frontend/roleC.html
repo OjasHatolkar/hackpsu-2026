@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Role C</title>
+</head>
+<body>
+    <h1>Role C</h1>
+
+    <button onclick="startRound()">Start Round</button>
+
+    <h2 id="resultText"></h2>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="socket.js"></script>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const room = params.get("room");
+        const role = params.get("role");
+
+        function startRound() {
+            socket.emit("next_round", { room });
+        }
+
+        socket.on("round_result", ({ directive, actual, success, score }) => {
+            document.getElementById("resultText").textContent =
+                `Directive: ${directive.type}=${directive.value} | Actual: ${actual} | ${success ? "SUCCESS" : "FAIL"} | Score: ${score.successes}/${score.failures}`;
+        });
+
+        socket.on("action_update", ({ from, action }) => {
+            console.log(`Player ${from} pressed:`, action);
+        });
+    </script>
+</body>
+</html>
